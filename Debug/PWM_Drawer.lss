@@ -1,0 +1,213 @@
+
+PWM_Drawer.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         0000012e  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000000  00800060  00800060  00000182  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .comment      00000030  00000000  00000000  00000182  2**0
+                  CONTENTS, READONLY
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000001b4  2**2
+                  CONTENTS, READONLY
+  4 .debug_aranges 00000098  00000000  00000000  000001f0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   000008a8  00000000  00000000  00000288  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 00000663  00000000  00000000  00000b30  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   000004f5  00000000  00000000  00001193  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  000000dc  00000000  00000000  00001688  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    000004d2  00000000  00000000  00001764  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    00000499  00000000  00000000  00001c36  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000068  00000000  00000000  000020cf  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+   8:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+   c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  10:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  14:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  18:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  1c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  20:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  24:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  28:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  2c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  30:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  34:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  38:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  3c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  40:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  44:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  48:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  4c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  50:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d8 e0       	ldi	r29, 0x08	; 8
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+  60:	0e 94 36 00 	call	0x6c	; 0x6c <main>
+  64:	0c 94 95 00 	jmp	0x12a	; 0x12a <_exit>
+
+00000068 <__bad_interrupt>:
+  68:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+0000006c <main>:
+#include "avr/interrupt.h"
+
+
+int main(void)
+{	
+	DIO_void_Set_Pin_Direction(PORTB_, 3, PIN_OUTPUT);
+  6c:	41 e0       	ldi	r20, 0x01	; 1
+  6e:	63 e0       	ldi	r22, 0x03	; 3
+  70:	81 e0       	ldi	r24, 0x01	; 1
+  72:	0e 94 46 00 	call	0x8c	; 0x8c <DIO_void_Set_Pin_Direction>
+	
+	TIMER0_Init(PRESCALE_1024, FAST_PWM);
+  76:	68 e4       	ldi	r22, 0x48	; 72
+  78:	85 e0       	ldi	r24, 0x05	; 5
+  7a:	0e 94 92 00 	call	0x124	; 0x124 <TIMER0_Init>
+	TCCR0 |= 0x30;
+  7e:	83 b7       	in	r24, 0x33	; 51
+  80:	80 63       	ori	r24, 0x30	; 48
+  82:	83 bf       	out	0x33, r24	; 51
+	TCNT0 = 0;
+  84:	12 be       	out	0x32, r1	; 50
+	OCR0 = 127;
+  86:	8f e7       	ldi	r24, 0x7F	; 127
+  88:	8c bf       	out	0x3c, r24	; 60
+  8a:	ff cf       	rjmp	.-2      	; 0x8a <main+0x1e>
+
+0000008c <DIO_void_Set_Pin_Direction>:
+	return loc_u8_pin_value;
+}
+
+void	DIO_void_Set_Pin_Direction(uint8_t copy_u8_port, uint8_t copy_u8_pin, uint8_t copy_u8_pin_direction) 
+{
+	if (copy_u8_pin_direction == PIN_OUTPUT)
+  8c:	41 30       	cpi	r20, 0x01	; 1
+  8e:	a1 f5       	brne	.+104    	; 0xf8 <DIO_void_Set_Pin_Direction+0x6c>
+	{
+		switch(copy_u8_port)
+  90:	81 30       	cpi	r24, 0x01	; 1
+  92:	89 f0       	breq	.+34     	; 0xb6 <DIO_void_Set_Pin_Direction+0x2a>
+  94:	28 f0       	brcs	.+10     	; 0xa0 <DIO_void_Set_Pin_Direction+0x14>
+  96:	82 30       	cpi	r24, 0x02	; 2
+  98:	c9 f0       	breq	.+50     	; 0xcc <DIO_void_Set_Pin_Direction+0x40>
+  9a:	83 30       	cpi	r24, 0x03	; 3
+  9c:	11 f1       	breq	.+68     	; 0xe2 <DIO_void_Set_Pin_Direction+0x56>
+  9e:	08 95       	ret
+		{
+			case PORTA_: SET_BIT(DDRA_REG, copy_u8_pin); break;
+  a0:	2a b3       	in	r18, 0x1a	; 26
+  a2:	81 e0       	ldi	r24, 0x01	; 1
+  a4:	90 e0       	ldi	r25, 0x00	; 0
+  a6:	02 c0       	rjmp	.+4      	; 0xac <DIO_void_Set_Pin_Direction+0x20>
+  a8:	88 0f       	add	r24, r24
+  aa:	99 1f       	adc	r25, r25
+  ac:	6a 95       	dec	r22
+  ae:	e2 f7       	brpl	.-8      	; 0xa8 <DIO_void_Set_Pin_Direction+0x1c>
+  b0:	82 2b       	or	r24, r18
+  b2:	8a bb       	out	0x1a, r24	; 26
+  b4:	08 95       	ret
+			case PORTB_: SET_BIT(DDRB_REG, copy_u8_pin); break;
+  b6:	27 b3       	in	r18, 0x17	; 23
+  b8:	81 e0       	ldi	r24, 0x01	; 1
+  ba:	90 e0       	ldi	r25, 0x00	; 0
+  bc:	02 c0       	rjmp	.+4      	; 0xc2 <DIO_void_Set_Pin_Direction+0x36>
+  be:	88 0f       	add	r24, r24
+  c0:	99 1f       	adc	r25, r25
+  c2:	6a 95       	dec	r22
+  c4:	e2 f7       	brpl	.-8      	; 0xbe <DIO_void_Set_Pin_Direction+0x32>
+  c6:	82 2b       	or	r24, r18
+  c8:	87 bb       	out	0x17, r24	; 23
+  ca:	08 95       	ret
+			case PORTC_: SET_BIT(DDRC_REG, copy_u8_pin); break;
+  cc:	24 b3       	in	r18, 0x14	; 20
+  ce:	81 e0       	ldi	r24, 0x01	; 1
+  d0:	90 e0       	ldi	r25, 0x00	; 0
+  d2:	02 c0       	rjmp	.+4      	; 0xd8 <DIO_void_Set_Pin_Direction+0x4c>
+  d4:	88 0f       	add	r24, r24
+  d6:	99 1f       	adc	r25, r25
+  d8:	6a 95       	dec	r22
+  da:	e2 f7       	brpl	.-8      	; 0xd4 <DIO_void_Set_Pin_Direction+0x48>
+  dc:	82 2b       	or	r24, r18
+  de:	84 bb       	out	0x14, r24	; 20
+  e0:	08 95       	ret
+			case PORTD_: SET_BIT(DDRD_REG, copy_u8_pin); break;
+  e2:	21 b3       	in	r18, 0x11	; 17
+  e4:	81 e0       	ldi	r24, 0x01	; 1
+  e6:	90 e0       	ldi	r25, 0x00	; 0
+  e8:	02 c0       	rjmp	.+4      	; 0xee <DIO_void_Set_Pin_Direction+0x62>
+  ea:	88 0f       	add	r24, r24
+  ec:	99 1f       	adc	r25, r25
+  ee:	6a 95       	dec	r22
+  f0:	e2 f7       	brpl	.-8      	; 0xea <DIO_void_Set_Pin_Direction+0x5e>
+  f2:	82 2b       	or	r24, r18
+  f4:	81 bb       	out	0x11, r24	; 17
+  f6:	08 95       	ret
+		}
+	}
+	else if(copy_u8_pin_direction == PIN_INPUT)
+  f8:	41 11       	cpse	r20, r1
+  fa:	13 c0       	rjmp	.+38     	; 0x122 <DIO_void_Set_Pin_Direction+0x96>
+	{
+		switch(copy_u8_port)
+  fc:	81 30       	cpi	r24, 0x01	; 1
+  fe:	49 f0       	breq	.+18     	; 0x112 <DIO_void_Set_Pin_Direction+0x86>
+ 100:	28 f0       	brcs	.+10     	; 0x10c <DIO_void_Set_Pin_Direction+0x80>
+ 102:	82 30       	cpi	r24, 0x02	; 2
+ 104:	49 f0       	breq	.+18     	; 0x118 <DIO_void_Set_Pin_Direction+0x8c>
+ 106:	83 30       	cpi	r24, 0x03	; 3
+ 108:	51 f0       	breq	.+20     	; 0x11e <DIO_void_Set_Pin_Direction+0x92>
+ 10a:	08 95       	ret
+		{
+			case PORTA_: CLR_BIT(DDRA_REG, copy_u8_pin); break;
+ 10c:	8a b3       	in	r24, 0x1a	; 26
+ 10e:	8a bb       	out	0x1a, r24	; 26
+ 110:	08 95       	ret
+			case PORTB_: CLR_BIT(DDRB_REG, copy_u8_pin); break;
+ 112:	87 b3       	in	r24, 0x17	; 23
+ 114:	87 bb       	out	0x17, r24	; 23
+ 116:	08 95       	ret
+			case PORTC_: CLR_BIT(DDRC_REG, copy_u8_pin); break;
+ 118:	84 b3       	in	r24, 0x14	; 20
+ 11a:	84 bb       	out	0x14, r24	; 20
+ 11c:	08 95       	ret
+			case PORTD_: CLR_BIT(DDRD_REG, copy_u8_pin); break;
+ 11e:	81 b3       	in	r24, 0x11	; 17
+ 120:	81 bb       	out	0x11, r24	; 17
+ 122:	08 95       	ret
+
+00000124 <TIMER0_Init>:
+#include "TIMER0_Private.h"
+#include "TIMER0_Interface.h"
+
+void TIMER0_Init(uint8_t copy_u8_clock_select, uint8_t copy_u8_waveform_generation_mode)
+{
+	uint8_t loc_port_value = copy_u8_clock_select | copy_u8_waveform_generation_mode;
+ 124:	86 2b       	or	r24, r22
+	TCCR0_REG = loc_port_value;
+ 126:	83 bf       	out	0x33, r24	; 51
+ 128:	08 95       	ret
+
+0000012a <_exit>:
+ 12a:	f8 94       	cli
+
+0000012c <__stop_program>:
+ 12c:	ff cf       	rjmp	.-2      	; 0x12c <__stop_program>
