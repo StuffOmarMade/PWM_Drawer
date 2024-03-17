@@ -15,6 +15,9 @@
 #define PIN_LOW		0
 #define PIN_HIGH	1
 
+#define PORT_INPUT	0x00
+#define PORT_OUTPUT	0xFF
+
 #define PORTA_		0
 #define PORTB_		1
 #define PORTC_		2

@@ -11,7 +11,7 @@
  
 #define GET_BIT(REG, BIT)	((REG>>BIT) & 1)
 #define SET_BIT(REG, BIT)	REG|=(1<<BIT)
-#define CLR_BIT(REG, BIT)	REG&=~(0<<BIT)
+#define CLR_BIT(REG, BIT)	REG&=~(1<<BIT)
 #define TOG_BIT(REG, BIT)	REG^=(1<<BIT) 
 
 #endif /* BIT_MATH_H_ */

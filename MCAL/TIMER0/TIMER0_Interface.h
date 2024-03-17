@@ -9,11 +9,13 @@
 #ifndef TIMER0_INTERFACE_H_
 #define TIMER0_INTERFACE_H_
 
+#define FOC0_b					7
+
 #define WGM01_b					6
 #define WGM00_b					3
 
-#define  COM01_b				5
-#define  COM00_b				4
+#define COM01_b					5
+#define COM00_b					4
 
 #define CS00_b					0
 #define CS01_b					1
@@ -27,12 +29,14 @@
 #define TIMER0_STOP				0b000
 #define PRESCALE_1				0b001
 #define PRESCALE_8				0b010
-#define PRESCALE_64				0b001
+#define PRESCALE_64				0b011
 #define PRESCALE_256			0b100
 #define PRESCALE_1024			0b101
 #define EXT_CLK_FALLING_EDGE	0b110
 #define EXT_CLK_RISING_EDGE		0b111
 
-void TIMER0_Init(uint8_t copy_u8_clock_select, uint8_t copy_u8_waveform_generation_mode);
+void TIMER0_void_Init(uint8_t copy_u8_clock_select, uint8_t copy_u8_mode);
+void TIMER0_void_Set_Compare_Output_Mode(uint8_t copy_u8_compare_output_mode);
+void TIMER0_void_Force_Output_Compare();
 
 #endif /* TIMER0_INTERFACE_H_ */

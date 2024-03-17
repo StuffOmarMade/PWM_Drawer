@@ -30,15 +30,15 @@
     <EraseKey />
     <AsfFrameworkConfig>
       <framework-data xmlns="">
-  <options />
-  <configurations />
-  <files />
-  <documentation help="" />
-  <offline-documentation help="" />
-  <dependencies>
-    <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.49.1" />
-  </dependencies>
-</framework-data>
+        <options />
+        <configurations />
+        <files />
+        <documentation help="" />
+        <offline-documentation help="" />
+        <dependencies>
+          <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.49.1" />
+        </dependencies>
+      </framework-data>
     </AsfFrameworkConfig>
     <avrtool>com.atmel.avrdbg.tool.simulator</avrtool>
     <avrtoolserialnumber />
@@ -133,7 +133,16 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="HAL\GLCD\GLCD_Interface.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="HAL\GLCD\GLCD_Interface.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="LIB\BIT_MATH.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="LIB\FONT_5x8.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="LIB\STD_TYPES.h">
@@ -160,12 +169,24 @@
     <Compile Include="MCAL\TIMER0\TIMER0_Private.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="MCAL\TIMER1\TIMER1_Interface.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="MCAL\TIMER1\TIMER1_Interface.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="MCAL\TIMER1\TIMER1_Private.h">
+      <SubType>compile</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="HAL\GLCD" />
     <Folder Include="MCAL" />
     <Folder Include="LIB" />
     <Folder Include="MCAL\DIO" />
+    <Folder Include="MCAL\TIMER1" />
     <Folder Include="MCAL\TIMER0" />
+    <Folder Include="HAL" />
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
 </Project>
