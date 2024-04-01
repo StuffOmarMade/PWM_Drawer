@@ -26,6 +26,32 @@ void TIMER0_void_Force_Output_Compare()
 	SET_BIT(TCCR0_REG, FOC0_b);
 }
 
+void TIMER0_void_Interrupt_Enable(uint8_t copy_u8_interrupt)
+{
+	switch(copy_u8_interrupt)
+	{
+		case TIMER0_OUTPUT_COMPARE_MATCH_INTERRUPT:
+			SET_BIT(TIMSK_REG, OCIE0_b);
+		break;
+		case TIMER0_OVERFLOW_INTERRUPT:
+			SET_BIT(TIMSK_REG, TOIE0_b);
+		break;	
+	}
+}
+
+void TIMER0_void_Interrupt_Disable(uint8_t copy_u8_interrupt)
+{
+	switch(copy_u8_interrupt)
+	{
+		case TIMER0_OUTPUT_COMPARE_MATCH_INTERRUPT:
+		CLR_BIT(TIMSK_REG, OCIE0_b);
+		break;
+		case TIMER0_OVERFLOW_INTERRUPT:
+		CLR_BIT(TIMSK_REG, TOIE0_b);
+		break;		
+	}
+}
+
 void TIMER0_void_Set_Counter_Value(uint8_t copy_u8_value)
 {
 	TCNT0_REG = copy_u8_value;

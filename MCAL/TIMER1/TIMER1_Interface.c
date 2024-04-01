@@ -11,11 +11,11 @@
 #include "TIMER1_Private.h"
 #include "TIMER1_Interface.h"
 
-void TIMER1_void_Init(uint8_t copy_u8_clock_select, uint8_t copy_u8_mode)
+void TIMER1_void_Init(uint8_t u8_clock_select, uint8_t copy_u8_mode)
 {
 	TCCR1A_REG = 0x00;
 	TCCR1B_REG = 0x00;
-	TCCR1B_REG |= ((copy_u8_mode >> 0b10) << WGM12_b) | copy_u8_clock_select;
+	TCCR1B_REG |= ((copy_u8_mode >> 0b10) << WGM12_b) | u8_clock_select;
 	TCCR1A_REG |= (copy_u8_mode & 0b0011);
 }
 
@@ -38,6 +38,44 @@ void TIMER1_void_Force_Output_Compare(uint8_t copy_u8_compare_unit)
 		break;	
 	}
 	
+}
+
+void TIMER1_void_Interrupt_Enable(uint8_t copy_u8_interrupt)
+{
+	switch(copy_u8_interrupt)
+	{
+		case TIMER1_INPUT_CAPTURE_INTERRUPT:
+		SET_BIT(TIMSK_REG, TICIE1_b);
+		break;
+		case TIMER1_OUTPUT_COMPARE_MATCH_A_INTERRUPT:
+		SET_BIT(TIMSK_REG, OCIE1A_b);
+		break;
+		case TIMER1_OUTPUT_COMPARE_MATCH_B_INTERRUPT:
+		SET_BIT(TIMSK_REG, OCIE1B_b);
+		break;
+		case TIMER1_OVERFLOW_INTERRUPT:
+		SET_BIT(TIMSK_REG, TOIE1_b);
+		break;	
+	}
+}
+
+void TIMER1_void_Interrupt_Disable(uint8_t copy_u8_interrupt)
+{
+	switch(copy_u8_interrupt)
+	{
+		case TIMER1_INPUT_CAPTURE_INTERRUPT:
+			CLR_BIT(TIMSK_REG, TICIE1_b);
+		break;
+		case TIMER1_OUTPUT_COMPARE_MATCH_A_INTERRUPT:
+			CLR_BIT(TIMSK_REG, OCIE1A_b);
+		break;
+		case TIMER1_OUTPUT_COMPARE_MATCH_B_INTERRUPT:
+			CLR_BIT(TIMSK_REG, OCIE1B_b);
+		break;
+		case TIMER1_OVERFLOW_INTERRUPT:
+			CLR_BIT(TIMSK_REG, TOIE1_b);
+		break;
+	}
 }
 
 void TIMER1_void_Noise_Canceler_Enable()

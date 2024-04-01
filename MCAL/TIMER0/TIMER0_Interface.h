@@ -21,6 +21,14 @@
 #define CS01_b					1
 #define CS02_b					2
 
+#define TOIE0_b					0
+#define OCIE0_b					1
+
+#define OC0_PIN					3
+
+#define TIMER0_OUTPUT_COMPARE_MATCH_INTERRUPT	0
+#define TIMER0_OVERFLOW_INTERRUPT				1
+
 #define NORMAL					0x00
 #define PHASE_CORRECT_PWM		0x40
 #define CTC						0x08
@@ -49,6 +57,8 @@
 void TIMER0_void_Init(uint8_t copy_u8_clock_select, uint8_t copy_u8_mode);
 void TIMER0_void_Set_Compare_Output_Mode(uint8_t copy_u8_compare_output_mode);
 void TIMER0_void_Force_Output_Compare();
+void TIMER1_void_Interrupt_Enable(uint8_t copy_u8_interrupt);
+void TIMER1_void_Interrupt_Disable(uint8_t copy_u8_interrupt);
 void TIMER0_void_Set_Counter_Value(uint8_t copy_u8_value);
 void TIMER0_void_Set_Top_Value(uint8_t copy_u8_value);
 void TIMER0_void_Stop();

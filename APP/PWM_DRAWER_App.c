@@ -18,15 +18,17 @@
 #include "../HAL/GLCD/GLCD_Interface.h"
 
 #include "PWM_DRAWER_App.h"
+#include "PWM_DRAWER_App_Config.h"
 
-#include <util/delay.h>
 #include <avr/interrupt.h>
 
 volatile uint16_t u16_init_val = 0;
 volatile uint16_t u16_period_ticks = 0;
 volatile uint16_t u16_on_ticks = 0;
 
-volatile bool done = false;
+uint16_t loc_u16_prescaler = 1;
+
+bool done = false;
 
 ISR(TIMER1_CAPT_vect)
 {
@@ -74,23 +76,25 @@ ISR(TIMER1_CAPT_vect)
 
 void PWM_DRAWER_Init()
 {
-	DIO_void_Set_Pin_Direction(PORTB_, 3, PIN_OUTPUT);
-	DIO_void_Set_Pin_Direction(PORTD_, 6, PIN_INPUT);
+	void_Handle_Prescaler();
+	
+	DIO_void_Set_Pin_Direction(PORTB_, OC0_PIN, PIN_OUTPUT);
+	DIO_void_Set_Pin_Direction(PORTD_, ICP1_PIN, PIN_INPUT);
 	
 	GLCD_void_Init();
 	GLCD_void_Select_Page(PAGE_0);
 	GLCD_void_Send_Command(DISPLAY_ON);
 	
-	TIMER0_void_Init(PRESCALE_256, FAST_PWM);
-	TIMER0_void_Set_Compare_Output_Mode(FAST_PWM_NON_INVERTING);
+	TIMER0_void_Init(config.prescaler, config.mode);
+	TIMER0_void_Set_Compare_Output_Mode(config.compare_output_mode);
 	
 	TIMER0_void_Set_Counter_Value(0);
-	TIMER0_void_Set_Top_Value(127);
+	TIMER0_void_Set_Top_Value(180);
 	
-	TIMER1_void_Init(PRESCALE_256, NORMAL);
+	TIMER1_void_Init(config.prescaler, NORMAL);
 	TIMER1_void_ICU_Edge_Select(RISING_EDGE);
 	
-	SET_BIT(TIMSK, TICIE1);
+	TIMER1_void_Interrupt_Enable(TIMER1_INPUT_CAPTURE_INTERRUPT);
 	
 	TIMER1_void_Set_Counter_Value(0);
 	
@@ -101,23 +105,29 @@ void PWM_DRAWER_Draw()
 {
 	if(done)
 	{
+		float32_t loc_f32_pulse_width_ratio = ((float32_t) u16_on_ticks / u16_period_ticks);
+		
+		float32_t loc_f32_frequency = 1 / ((u16_period_ticks) * ((float32_t) loc_u16_prescaler / F_CPU));
+		float32_t loc_f32_time = (u16_period_ticks) * ((float32_t) loc_u16_prescaler / F_CPU) * 1000;
+		float32_t loc_f32_duty = (loc_f32_pulse_width_ratio) * 100;
+		
 		GLCD_void_Select_Page(PAGE_0);
 		GLCD_void_Set_Line(LINE_0);
 		GLCD_void_Set_Cursor_Position(CURSOR_POSITION_0);
 		GLCD_void_Display_String("Freq: ");
-		GLCD_void_Display_Floating_Point(1 / ((u16_period_ticks) * ((float32_t) 256 / F_CPU)));
+		GLCD_void_Display_Floating_Point(loc_f32_frequency);
 		
 		GLCD_void_Select_Page(PAGE_0);
 		GLCD_void_Set_Line(LINE_1);
 		GLCD_void_Set_Cursor_Position(CURSOR_POSITION_0);
 		GLCD_void_Display_String("TIME: ");
-		GLCD_void_Display_Floating_Point((u16_period_ticks) * ((float32_t) 256 / F_CPU) * 1000);
+		GLCD_void_Display_Floating_Point(loc_f32_time);
 		
 		GLCD_void_Select_Page(PAGE_0);
 		GLCD_void_Set_Line(LINE_2);
 		GLCD_void_Set_Cursor_Position(CURSOR_POSITION_0);
 		GLCD_void_Display_String("Duty: ");
-		GLCD_void_Display_Floating_Point(((float32_t)(u16_on_ticks) / (u16_period_ticks)) * 100);
+		GLCD_void_Display_Floating_Point(loc_f32_duty);
 		GLCD_void_Display_String("%");
 		
 		
@@ -135,7 +145,7 @@ void PWM_DRAWER_Draw()
 			
 			GLCD_void_Display_Pattern(rising_edge_pattern);
 			
-			for (int i = 0; i < ((float32_t) u16_on_ticks / u16_period_ticks) * 60; i++)
+			for (int i = 0; i < loc_f32_pulse_width_ratio * CYCLE_WIDTH_IN_PIXELS; i++)
 			{
 				GLCD_void_Display_Pattern(on_pattern);
 				j++;
@@ -143,7 +153,7 @@ void PWM_DRAWER_Draw()
 			
 			GLCD_void_Display_Pattern(falling_edge_pattern);
 			
-			for (int i = 0; i < 60 - (((float32_t) u16_on_ticks / u16_period_ticks) * 60); i++)
+			for (int i = 0; i < CYCLE_WIDTH_IN_PIXELS - (loc_f32_pulse_width_ratio * CYCLE_WIDTH_IN_PIXELS); i++)
 			{
 				GLCD_void_Display_Pattern(off_pattern);
 				j++;
@@ -151,5 +161,27 @@ void PWM_DRAWER_Draw()
 			
 			j+=4;
 		}
+	}
+}
+
+void void_Handle_Prescaler()
+{
+	switch(config.prescaler)
+	{
+		case PRESCALE_1:
+		loc_u16_prescaler = 1;
+		break;
+		case PRESCALE_8:
+		loc_u16_prescaler = 8;
+		break;
+		case PRESCALE_64:
+		loc_u16_prescaler = 64;
+		break;
+		case PRESCALE_256:
+		loc_u16_prescaler = 256;
+		break;
+		case PRESCALE_1024:
+		loc_u16_prescaler = 1024;
+		break;
 	}
 }

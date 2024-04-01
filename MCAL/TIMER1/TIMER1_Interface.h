@@ -10,15 +10,24 @@
 
 #define ICNC1_b			7
 #define ICES1_b			6
-#define TICIE1_b		5
 #define ICF1_b			5
 
 #define WGM12_b			3
+
+#define TOIE1_b			2
+#define OCIE1B_b		3
+#define OCIE1A_b		4
+#define TICIE1_b		5
 
 #define ICP1_PIN		6
 
 #define FALLING_EDGE	0
 #define RISING_EDGE		1
+
+#define TIMER1_INPUT_CAPTURE_INTERRUPT	0
+#define TIMER1_OUTPUT_COMPARE_MATCH_A_INTERRUPT 1
+#define TIMER1_OUTPUT_COMPARE_MATCH_B_INTERRUPT 2
+#define TIMER1_OVERFLOW_INTERRUPT				3
 
 #define TIMER1_STOP				0b000
 #define PRESCALE_1				0b001
@@ -49,8 +58,10 @@
 #define	COMPARE_UNIT_B			2
 #define BOTH_COMPARE_UNITS		3
 
-void TIMER1_void_Init(uint8_t copy_u8_clock_select, uint8_t copy_u8_mode);
+void TIMER1_void_Init(uint8_t u8_clock_select, uint8_t copy_u8_mode);
 void TIMER1_void_Force_Output_Compare(uint8_t copy_u8_compare_unit);
+void TIMER1_void_Interrupt_Enable(uint8_t copy_u8_interrupt);
+void TIMER1_void_Interrupt_Disable(uint8_t copy_u8_interrupt);
 void TIMER1_void_ICU_Edge_Select(uint8_t copy_u8_edge);
 void TIMER1_void_Noise_Canceler_Enable();
 void TIMER1_void_Noise_Canceler_Disable();

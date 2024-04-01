@@ -139,6 +139,9 @@
     <Compile Include="APP\PWM_DRAWER_App.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="APP\PWM_DRAWER_App_Config.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="HAL\GLCD\GLCD_Interface.c">
       <SubType>compile</SubType>
     </Compile>
