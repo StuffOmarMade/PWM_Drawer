@@ -36,7 +36,7 @@ uint8_t DIO_u8_Get_Pin_Value(uint8_t copy_u8_port, uint8_t copy_u8_pin)
 	return loc_u8_pin_value;
 }
 
-void	DIO_void_Set_Pin_Direction(uint8_t copy_u8_port, uint8_t copy_u8_pin, uint8_t copy_u8_pin_direction) 
+void DIO_void_Set_Pin_Direction(uint8_t copy_u8_port, uint8_t copy_u8_pin, uint8_t copy_u8_pin_direction) 
 {
 	if (copy_u8_pin_direction == PIN_OUTPUT)
 	{
@@ -60,7 +60,7 @@ void	DIO_void_Set_Pin_Direction(uint8_t copy_u8_port, uint8_t copy_u8_pin, uint8
 	}
 }
 
-void	DIO_void_Set_Pin_Value(uint8_t copy_u8_port, uint8_t copy_u8_pin, uint8_t copy_u8_pin_value)
+void DIO_void_Set_Pin_Value(uint8_t copy_u8_port, uint8_t copy_u8_pin, uint8_t copy_u8_pin_value)
 {
 	if (copy_u8_pin_value == PIN_HIGH)
 	{
@@ -84,7 +84,7 @@ void	DIO_void_Set_Pin_Value(uint8_t copy_u8_port, uint8_t copy_u8_pin, uint8_t c
 	}
 }
 
-void	DIO_void_Tog_Pin_Value(uint8_t copy_u8_port, uint8_t copy_u8_pin)
+void DIO_void_Tog_Pin_Value(uint8_t copy_u8_port, uint8_t copy_u8_pin)
 {
 	switch(copy_u8_port)
 	{
@@ -121,7 +121,7 @@ uint8_t DIO_u8_Get_Port_Value(uint8_t copy_u8_port)
 	return loc_u8_port_value;
 }
 
-void	DIO_void_Set_Port_Direction(uint8_t copy_u8_port, uint8_t copy_u8_port_direction)
+void DIO_void_Set_Port_Direction(uint8_t copy_u8_port, uint8_t copy_u8_port_direction)
 {
 	switch(copy_u8_port)
 	{
@@ -143,7 +143,7 @@ void	DIO_void_Set_Port_Direction(uint8_t copy_u8_port, uint8_t copy_u8_port_dire
 	}
 }
 	
-void	DIO_void_Set_Port_Value(uint8_t copy_u8_port, uint8_t copy_u8_port_value)
+void DIO_void_Set_Port_Value(uint8_t copy_u8_port, uint8_t copy_u8_port_value)
 {
 	switch(copy_u8_port)
 	{
@@ -165,7 +165,7 @@ void	DIO_void_Set_Port_Value(uint8_t copy_u8_port, uint8_t copy_u8_port_value)
 	}
 }
 
-void	DIO_void_Tog_Port_Value(uint8_t copy_u8_port)
+void DIO_void_Tog_Port_Value(uint8_t copy_u8_port)
 {
 	switch(copy_u8_port)
 	{

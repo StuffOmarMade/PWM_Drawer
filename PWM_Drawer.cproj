@@ -133,6 +133,12 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="APP\PWM_DRAWER_App.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="APP\PWM_DRAWER_App.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="HAL\GLCD\GLCD_Interface.c">
       <SubType>compile</SubType>
     </Compile>
@@ -148,6 +154,9 @@
     <Compile Include="LIB\STD_TYPES.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="LIB\WAVE_PATTERNS.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
@@ -158,6 +167,15 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="MCAL\DIO\DIO_Private.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="MCAL\GIE\GIE_Interface.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="MCAL\GIE\GIE_Interface.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="MCAL\GIE\GIE_Private.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="MCAL\TIMER0\TIMER0_Interface.c">
@@ -180,10 +198,12 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="APP" />
     <Folder Include="HAL\GLCD" />
     <Folder Include="MCAL" />
     <Folder Include="LIB" />
     <Folder Include="MCAL\DIO" />
+    <Folder Include="MCAL\GIE" />
     <Folder Include="MCAL\TIMER1" />
     <Folder Include="MCAL\TIMER0" />
     <Folder Include="HAL" />

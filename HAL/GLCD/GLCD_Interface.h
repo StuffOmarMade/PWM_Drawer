@@ -28,6 +28,8 @@
 #define PAGE_1		2
 #define BOTH_PAGES	3
 
+#define MAX_WIDTH	128
+#define PAGE_WIDTH	64
 
 #define LINE_0 0b000
 #define LINE_1 0b001
@@ -116,3 +118,5 @@ void GLCD_void_Display_String(char* copy_u8_string);
 
 void GLCD_void_Display_Integer(int32_t copy_s32_integer);
 void GLCD_void_Display_Floating_Point(float32_t copy_f32_float);
+
+void GLCD_void_Display_Pattern(uint8_t pattern[]);

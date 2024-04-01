@@ -44,10 +44,16 @@
 #define FAST_PWM_ICR1						14
 #define FAST_PWM_OCR1A						15
 
-#define COMPARE_UNIT_A			0
-#define	COMPARE_UNIT_B			1
-#define BOTH_COMPARE_UNITS		2
+#define NONE					0
+#define COMPARE_UNIT_A			1
+#define	COMPARE_UNIT_B			2
+#define BOTH_COMPARE_UNITS		3
 
 void TIMER1_void_Init(uint8_t copy_u8_clock_select, uint8_t copy_u8_mode);
-//void TIMER1_void_Force_Output_Compare(uint8_t copy_u8_compare_unit);
+void TIMER1_void_Force_Output_Compare(uint8_t copy_u8_compare_unit);
 void TIMER1_void_ICU_Edge_Select(uint8_t copy_u8_edge);
+void TIMER1_void_Noise_Canceler_Enable();
+void TIMER1_void_Noise_Canceler_Disable();
+void TIMER1_void_Set_Counter_Value(uint16_t copy_u16_value);
+uint16_t TIMER1_u16_Get_ICR1();
+void TIMER1_void_Stop();

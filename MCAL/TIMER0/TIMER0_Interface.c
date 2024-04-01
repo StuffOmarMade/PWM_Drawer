@@ -23,5 +23,20 @@ void TIMER0_void_Set_Compare_Output_Mode(uint8_t copy_u8_compare_output_mode)
 
 void TIMER0_void_Force_Output_Compare()
 {
-	TCCR0_REG |= (1 << FOC0_b);
+	SET_BIT(TCCR0_REG, FOC0_b);
+}
+
+void TIMER0_void_Set_Counter_Value(uint8_t copy_u8_value)
+{
+	TCNT0_REG = copy_u8_value;
+}
+
+void TIMER0_void_Set_Top_Value(uint8_t copy_u8_value)
+{
+	OCR0_REG = copy_u8_value;	
+}
+
+void TIMER0_void_Stop()
+{
+	TCCR0_REG &= 0b11111000;
 }

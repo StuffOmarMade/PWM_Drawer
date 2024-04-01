@@ -35,8 +35,22 @@
 #define EXT_CLK_FALLING_EDGE	0b110
 #define EXT_CLK_RISING_EDGE		0b111
 
+#define DISCONNECT_OC0			0b00
+#define NON_PWM_TOGGLE_OC0		0b01
+#define	NON_PWM_CLEAR_OC0		0b10
+#define	NON_PWM_SET_OC0			0b11
+
+#define	FAST_PWM_NON_INVERTING	0b10
+#define	FAST_PWM_INVERTING		0b11
+
+#define	PHASE_CORRECT_PWM_CLR_UP		0b10
+#define	PHASE_CORRECT_PWM_SET_UP		0b11
+
 void TIMER0_void_Init(uint8_t copy_u8_clock_select, uint8_t copy_u8_mode);
 void TIMER0_void_Set_Compare_Output_Mode(uint8_t copy_u8_compare_output_mode);
 void TIMER0_void_Force_Output_Compare();
+void TIMER0_void_Set_Counter_Value(uint8_t copy_u8_value);
+void TIMER0_void_Set_Top_Value(uint8_t copy_u8_value);
+void TIMER0_void_Stop();
 
 #endif /* TIMER0_INTERFACE_H_ */

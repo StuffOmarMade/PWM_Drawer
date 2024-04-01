@@ -109,25 +109,37 @@ void GLCD_void_Display_String(char* copy_u8_string)
 void GLCD_void_Display_Integer(int32_t copy_s32_integer)
 {
 	uint8_t loc_u8_digit = 0;
-	uint8_t str_reversed[5] = "";
-	uint8_t* str_ptr = str_reversed;
+	uint8_t loc_u8_str_reversed[5] = "";
+	uint8_t* str_ptr = loc_u8_str_reversed;
 	
-	do {
+	do
+	{
 		loc_u8_digit = copy_s32_integer % 10;
 		*str_ptr = (char)(48 + loc_u8_digit);
 		copy_s32_integer = copy_s32_integer / 10;
 		str_ptr++;
-	} while (copy_s32_integer > 0);
-	do {
+	} while(copy_s32_integer > 0);
+	
+	while (str_ptr != loc_u8_str_reversed) {
 		str_ptr--;
 		GLCD_void_Display_Char(*str_ptr);
-	} while (str_ptr != str_reversed);
+	}
 }
 
 void GLCD_void_Display_Floating_Point(float32_t copy_f32_float)
 {
-	uint32_t integer_part = (int32_t) copy_f32_float;
-	GLCD_void_Display_Integer(integer_part);
+	uint32_t loc_integer_part = (int32_t) copy_f32_float;
+	GLCD_void_Display_Integer(loc_integer_part);
 	GLCD_void_Display_Char('.');
-	GLCD_void_Display_Integer((copy_f32_float - integer_part) * 100);
+	GLCD_void_Display_Integer((copy_f32_float - loc_integer_part) * 100);
+}
+
+void GLCD_void_Display_Pattern(uint8_t pattern[])
+{
+	int i = 0;
+	while(pattern[i] != '\0')
+	{
+		GLCD_void_Send_Data(pattern[i]);
+		i++;
+	}
 }
